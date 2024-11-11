@@ -1,4 +1,3 @@
-import requests
 import pickle
 from flask import Flask, request, jsonify
 

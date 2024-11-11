@@ -167,3 +167,4 @@ cython_debug/
 *.txt
 *_all.ipynb
 *_tmp/
+ruff.toml
