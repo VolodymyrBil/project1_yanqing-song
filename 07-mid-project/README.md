@@ -1,4 +1,4 @@
-Heart Failure Prediction
+# Heart Failure Prediction
 
 This project analysed Heart Failure Clinical Records dataset (heart_failure_clinical_records_dataset.csv, from UC Irvine Machine Learning Repository), built multiple models to predict the death events of patients with previous heart-failures, and finally deployed the best model locally and on the AWS cloud. 
 
