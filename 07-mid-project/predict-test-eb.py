@@ -1,7 +1,7 @@
 import requests
 
-
-url = 'http://localhost:9696/predict'
+host = 'heart-failure-predict-env.eba-edmtw3ws.us-west-2.elasticbeanstalk.com'
+url = f'http://{host}/predict'
 patient = {
     'age': 65,
     'anaemia': False,

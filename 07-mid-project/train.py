@@ -84,4 +84,4 @@ print(f'test auc = {auc:.4f}')
 with open('model.bin', 'wb') as f_out:
     pickle.dump((dv, model), f_out)
 
-print(f'\nmodel.bin saved.')
+print('\nmodel.bin saved.')
