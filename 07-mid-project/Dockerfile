@@ -8,7 +8,7 @@ COPY ["Pipfile", "Pipfile.lock", "./"]
 
 RUN pipenv install --system --deploy
 
-COPY ["*.py", "notebook.ipynb", "model.bin", "*.csv" "./"]
+COPY ["*.py", "notebook.ipynb", "model.bin", "*.csv", "./"]
 
 EXPOSE 9696
 
