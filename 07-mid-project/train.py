@@ -14,9 +14,7 @@ max_depth = 3
 min_samples_leaf = 15
 
 # data preparation
-df = pd.read_csv(
-    '/Users/yanqingsong/Documents/mypythonscript/practice scripts/ml zoomcamp/machine-learning-zoomcamp-homework/07-mid-project/heart_failure_clinical_records_dataset.csv'
-)
+df = pd.read_csv('heart_failure_clinical_records_dataset.csv')
 
 df['age'] = df['age'].astype(int)
 df.columns = df.columns.str.lower()
