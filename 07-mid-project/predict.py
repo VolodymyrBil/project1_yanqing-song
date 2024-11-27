@@ -6,7 +6,7 @@ from flask import jsonify
 
 
 with open('model.bin', 'rb') as f_in:
-    dv, model = pickle.load(f_in)
+    dv, scaler, model = pickle.load(f_in)
 
 app = Flask('death')
 
@@ -15,6 +15,7 @@ app = Flask('death')
 def predict():
     patient = request.get_json()
     X = dv.transform([patient])
+    X = scaler.transform(X)
 
     y_pred = model.predict_proba(X)[0, 1]
     death = y_pred >= 0.5

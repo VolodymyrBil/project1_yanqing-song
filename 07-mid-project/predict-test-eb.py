@@ -4,16 +4,16 @@ host = 'heart-failure-predict-env.eba-qhajbtg2.us-west-2.elasticbeanstalk.com'
 url = f'http://{host}/predict'
 patient = {
     'age': 65,
-    'anaemia': False,
+    'anaemia': 0,
     'creatinine_phosphokinase': 1688,
-    'diabetes': False,
+    'diabetes': 0,
     'ejection_fraction': 38,
-    'high_blood_pressure': False,
+    'high_blood_pressure': 0,
     'platelets': 263360,
     'serum_creatinine': 1.1,
     'serum_sodium': 138,
-    'sex': 'man',
-    'smoking': True,
+    'sex': 1,
+    'smoking': 1,
     'time': 250,
 }
 response = requests.post(url, json=patient).json()

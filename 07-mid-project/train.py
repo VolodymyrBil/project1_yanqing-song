@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split, KFold
 from sklearn.feature_extraction import DictVectorizer
+from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import roc_auc_score
 import pickle
@@ -35,7 +36,8 @@ X_train_full, X_test, y_train_full, y_test = train_test_split(
 def train(X_train, y_train):
     dv = DictVectorizer(sparse=False)
     X_train = dv.fit_transform(X_train.to_dict(orient='records'))
-
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
     rf_model = RandomForestClassifier(
         n_estimators=n_estimators,
         max_depth=max_depth,
@@ -44,11 +46,12 @@ def train(X_train, y_train):
         n_jobs=-1,
     )
     rf_model.fit(X_train, y_train)
-    return dv, rf_model
+    return dv, scaler, rf_model
 
 
-def predict(X, dv, model):
+def predict(X, dv, scaler, model):
     X = dv.transform(X.to_dict(orient='records'))
+    X = scaler.transform(X)
     y_pred = model.predict_proba(X)[:, 1]
     return y_pred
 
@@ -62,8 +65,8 @@ for train_idx, val_idx in kf.split(X_train_full):
     y_train = y_train_full.iloc[train_idx]
     y_val = y_train_full.iloc[val_idx]
 
-    dv, model = train(X_train, y_train)
-    y_pred = predict(X_val, dv, model)
+    dv, scaler, model = train(X_train, y_train)
+    y_pred = predict(X_val, dv, scaler, model)
     auc = roc_auc_score(y_val, y_pred)
     scores.append(auc)
     print(f'fold {fold} auc: {auc:.4f}')
@@ -73,13 +76,13 @@ print('\nvalidation auc:')
 print(f'{np.mean(scores):.4f} ± {np.std(scores):.4f}')
 
 print('\ntraining the final model')
-dv, model = train(X_train_full, y_train_full)
+dv, scaler, model = train(X_train_full, y_train_full)
 
-y_pred = predict(X_test, dv, model)
+y_pred = predict(X_test, dv, scaler, model)
 auc = roc_auc_score(y_test, y_pred)
 print(f'test auc = {auc:.4f}')
 
 with open('model.bin', 'wb') as f_out:
-    pickle.dump((dv, model), f_out)
+    pickle.dump((dv, scaler, model), f_out)
 
 print('\nmodel.bin saved.')
